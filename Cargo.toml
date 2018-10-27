@@ -1,0 +1,6 @@
+[package]
+name = "blackjack"
+version = "0.1.0"
+authors = ["Roadagain <ringoh72@gmail.com>"]
+
+[dependencies]
