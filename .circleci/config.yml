@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: rust:1.27.2
+    steps:
+      - checkout
+      - run:
+          name: fetch dependencies
+          command: cargo fetch
+      - run:
+          name: build
+          command: cargo build
+      - run:
+          name: test
+          command: cargo test
