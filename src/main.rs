@@ -1,3 +1,8 @@
+pub mod deck;
+
+use deck::Deck;
+
 fn main() {
-    println!("Hello, world!");
+    let deck = Deck::new();
+    println!("{:?}", deck.cards);
 }
