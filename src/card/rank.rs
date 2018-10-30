@@ -1,16 +1,16 @@
 use std::fmt;
 
-pub struct Card {
+pub struct Rank {
     rank: i32,
 }
 
-impl Card {
-    pub fn new(rank: i32) -> Card {
-        return Card { rank: rank };
+impl Rank {
+    pub fn new(rank: i32) -> Rank {
+        return Rank { rank: rank };
     }
 }
 
-impl fmt::Display for Card {
+impl fmt::Display for Rank {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self.rank {
             1 => write!(f, "A"),

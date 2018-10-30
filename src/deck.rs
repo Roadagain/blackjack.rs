@@ -1,7 +1,7 @@
 extern crate itertools;
 extern crate rand;
 
-use card::Card;
+use card::card::Card;
 use deck::itertools::free::join;
 use deck::rand::{thread_rng, Rng};
 use std::fmt;
