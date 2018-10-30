@@ -1,7 +1,9 @@
 extern crate rand;
+extern crate itertools;
 
 use card::Card;
 use deck::rand::{thread_rng, Rng};
+use deck::itertools::free::join;
 use std::fmt;
 
 pub struct Deck {
@@ -10,7 +12,8 @@ pub struct Deck {
 
 impl Deck {
     pub fn new() -> Deck {
-        let mut cards: Vec<Card> = (1..14).map(|x| Card::new(x)).collect();
+        let all_cards = (1..14).map(|x| Card::new(x));
+        let mut cards: Vec<Card> = all_cards.collect();
         thread_rng().shuffle(&mut cards);
         return Deck { cards: cards };
     }
@@ -18,8 +21,7 @@ impl Deck {
 
 impl fmt::Display for Deck {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        let cards_str: Vec<String> = self.cards.iter().map(|c| format!("{}", c)).collect();
-        let joined = cards_str.join(", ");
-        write!(f, "[{}]", joined)
+        let cards_iter = self.cards.iter();
+        write!(f, "[{}]", join(cards_iter, ", "))
     }
 }

@@ -5,3 +5,4 @@ authors = ["Roadagain <ringoh72@gmail.com>"]
 
 [dependencies]
 rand = "0.5.5"
+itertools = "0.7.8"
