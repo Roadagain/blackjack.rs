@@ -1,9 +1,9 @@
-extern crate rand;
 extern crate itertools;
+extern crate rand;
 
 use card::Card;
-use deck::rand::{thread_rng, Rng};
 use deck::itertools::free::join;
+use deck::rand::{thread_rng, Rng};
 use std::fmt;
 
 pub struct Deck {
