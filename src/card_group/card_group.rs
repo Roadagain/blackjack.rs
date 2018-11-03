@@ -13,7 +13,9 @@ pub struct CardGroup {
 impl CardGroup {
     pub fn new() -> CardGroup {
         let all_cards = (1..14).map(|x| Card::new(x));
-        return CardGroup { cards: all_cards.collect() };
+        return CardGroup {
+            cards: all_cards.collect(),
+        };
     }
 
     pub fn shuffle(&mut self) {
