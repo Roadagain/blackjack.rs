@@ -8,10 +8,10 @@ pub struct Card {
 }
 
 impl Card {
-    pub fn new(rank: i32) -> Card {
+    pub fn new(rank: i32, suit: Suit) -> Card {
         return Card {
             rank: Rank::new(rank),
-            suit: Suit::SPADE,
+            suit: suit,
         };
     }
 }

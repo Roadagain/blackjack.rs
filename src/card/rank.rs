@@ -1,4 +1,5 @@
 use std::fmt;
+use std::ops::Range;
 
 pub struct Rank {
     rank: i32,
@@ -9,6 +10,10 @@ impl Rank {
         return Rank { rank: rank };
     }
 }
+
+pub const MIN: i32 = 1;
+pub const MAX: i32 = 13;
+pub const RANGE: Range<i32> = MIN..(MAX + 1);
 
 impl fmt::Display for Rank {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
