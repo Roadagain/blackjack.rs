@@ -1,6 +1,5 @@
 extern crate itertools;
 
-use card::suit::Suit;
 use card_group::card_group::CardGroup;
 use std::fmt;
 
@@ -10,7 +9,7 @@ pub struct Deck {
 
 impl Deck {
     pub fn new() -> Deck {
-        let mut card_group = CardGroup::all_number(Suit::SPADE);
+        let mut card_group = CardGroup::all_cards();
         card_group.shuffle();
         return Deck {
             card_group: card_group,

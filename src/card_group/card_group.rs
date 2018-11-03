@@ -23,6 +23,16 @@ impl CardGroup {
         return CardGroup::new(all_cards.collect());
     }
 
+    pub fn all_cards() -> CardGroup {
+        let mut all_cards: Vec<Card> = Vec::new();
+        for suit in Suit::iterator() {
+            let range = rank::RANGE;
+            let all_numbers = range.map(|x| Card::new(x, *suit));
+            all_cards.extend(all_numbers);
+        }
+        return CardGroup::new(all_cards);
+    }
+
     pub fn shuffle(&mut self) {
         thread_rng().shuffle(&mut self.cards);
     }
