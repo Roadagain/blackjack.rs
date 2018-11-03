@@ -1,11 +1,8 @@
-extern crate itertools;
-extern crate rand;
-
-use card::card::Card;
-use card::rank;
-use card::suit::Suit;
-use card_group::card_group::itertools::free::join;
-use card_group::card_group::rand::{thread_rng, Rng};
+use card::Card;
+use card::Rank;
+use card::Suit;
+use itertools::free::join;
+use rand::{thread_rng, Rng};
 use std::fmt;
 
 pub struct CardGroup {
@@ -18,7 +15,7 @@ impl CardGroup {
     }
 
     pub fn all_number(suit: Suit) -> CardGroup {
-        let range = rank::RANGE;
+        let range = Rank::RANGE;
         let all_cards = range.map(|x| Card::new(x, suit));
         return CardGroup::new(all_cards.collect());
     }
@@ -26,7 +23,7 @@ impl CardGroup {
     pub fn all_cards() -> CardGroup {
         let mut all_cards: Vec<Card> = Vec::new();
         for suit in Suit::iterator() {
-            let range = rank::RANGE;
+            let range = Rank::RANGE;
             let all_numbers = range.map(|x| Card::new(x, *suit));
             all_cards.extend(all_numbers);
         }

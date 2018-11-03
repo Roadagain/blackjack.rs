@@ -1,5 +1,5 @@
-use card::rank::Rank;
-use card::suit::Suit;
+use super::rank::Rank;
+use super::suit::Suit;
 use std::fmt;
 
 pub struct Card {

@@ -1,6 +1,4 @@
-extern crate itertools;
-
-use card_group::card_group::CardGroup;
+use super::card_group::CardGroup;
 use std::fmt;
 
 pub struct Deck {

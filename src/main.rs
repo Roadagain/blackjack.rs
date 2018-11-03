@@ -1,7 +1,6 @@
-pub mod card;
-pub mod card_group;
+extern crate blackjack;
 
-use card_group::deck::Deck;
+use blackjack::card_group::Deck;
 
 fn main() {
     let deck = Deck::new();
