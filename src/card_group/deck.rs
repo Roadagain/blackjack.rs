@@ -9,10 +9,11 @@ pub struct Deck {
 
 impl Deck {
     pub fn new() -> Deck {
-        let card_group = CardGroup::new();
-        let mut instance = Deck { card_group: card_group };
-        instance.card_group.shuffle();
-        return instance;
+        let mut card_group = CardGroup::new();
+        card_group.shuffle();
+        return Deck {
+            card_group: card_group,
+        };
     }
 }
 
