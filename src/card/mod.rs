@@ -1,3 +1,3 @@
 pub mod card;
-mod rank;
-mod suit;
+pub mod rank;
+pub mod suit;
