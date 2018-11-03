@@ -1,7 +1,7 @@
 pub mod card;
-pub mod deck;
+pub mod card_group;
 
-use deck::Deck;
+use card_group::deck::Deck;
 
 fn main() {
     let deck = Deck::new();
