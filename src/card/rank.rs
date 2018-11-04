@@ -1,5 +1,5 @@
 use std::fmt;
-use std::ops::Range;
+use std::ops::RangeInclusive;
 
 pub struct Rank {
     rank: i32,
@@ -7,12 +7,12 @@ pub struct Rank {
 
 impl Rank {
     pub fn new(rank: i32) -> Rank {
-        return Rank { rank: rank };
+        Rank { rank }
     }
 
     pub const MIN: i32 = 1;
     pub const MAX: i32 = 13;
-    pub const RANGE: Range<i32> = self::Rank::MIN..(self::Rank::MAX + 1);
+    pub const RANGE: RangeInclusive<i32> = self::Rank::MIN..=self::Rank::MAX;
 }
 
 impl fmt::Display for Rank {

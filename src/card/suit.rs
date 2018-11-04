@@ -12,7 +12,7 @@ pub enum Suit {
 impl Suit {
     pub fn iterator() -> Iter<'static, Suit> {
         const SUITS: [Suit; 4] = [Suit::SPADE, Suit::HEART, Suit::DIAMOND, Suit::CLUB];
-        return SUITS.iter();
+        SUITS.iter()
     }
 }
 
