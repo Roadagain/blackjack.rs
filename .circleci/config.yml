@@ -14,3 +14,8 @@ jobs:
       - run:
           name: test
           command: cargo test
+      - run:
+          name: lint
+          command: |
+            rustup component add clippy-preview &&
+            cargo clippy
