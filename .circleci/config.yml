@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: rust:1.27.2
+      - image: rust:1.30.0
     steps:
       - checkout
       - run:
@@ -14,3 +14,8 @@ jobs:
       - run:
           name: test
           command: cargo test
+      - run:
+          name: lint
+          command: |
+            rustup component add clippy-preview &&
+            cargo clippy
