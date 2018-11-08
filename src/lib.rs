@@ -1,3 +1,4 @@
+extern crate enum_iterator;
 extern crate itertools;
 extern crate rand;
 

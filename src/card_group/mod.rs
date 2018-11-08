@@ -17,16 +17,16 @@ impl CardGroup {
     }
 
     pub fn all_number(suit: Suit) -> CardGroup {
-        let range = Rank::RANGE;
-        let all_cards = range.map(|x| Card::new(x, suit));
+        let iter = Rank::into_iter();
+        let all_cards = iter.map(|x| Card::new(x, suit));
         CardGroup::new(all_cards.collect())
     }
 
     pub fn all_cards() -> CardGroup {
         let mut all_cards: Vec<Card> = Vec::new();
         for suit in Suit::iterator() {
-            let range = Rank::RANGE;
-            let all_numbers = range.map(|x| Card::new(x, *suit));
+            let iter = Rank::into_iter();
+            let all_numbers = iter.map(|x| Card::new(x, *suit));
             all_cards.extend(all_numbers);
         }
         CardGroup::new(all_cards)
