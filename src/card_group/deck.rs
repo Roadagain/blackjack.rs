@@ -11,6 +11,10 @@ impl Deck {
         card_group.shuffle();
         Deck { card_group }
     }
+
+    pub fn shuffle(&mut self) {
+        self.card_group.shuffle()
+    }
 }
 
 impl Default for Deck {
