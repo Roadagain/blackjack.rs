@@ -1,7 +1,7 @@
+use enum_iterator::IntoEnumIterator;
 use std::fmt;
-use std::slice::Iter;
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, IntoEnumIterator)]
 pub enum Suit {
     SPADE,
     HEART,
@@ -10,9 +10,8 @@ pub enum Suit {
 }
 
 impl Suit {
-    pub fn iterator() -> Iter<'static, Suit> {
-        const SUITS: [Suit; 4] = [Suit::SPADE, Suit::HEART, Suit::DIAMOND, Suit::CLUB];
-        SUITS.iter()
+    pub fn iter() -> SuitEnumIterator {
+        Suit::into_enum_iter()
     }
 }
 

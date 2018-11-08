@@ -24,9 +24,9 @@ impl CardGroup {
 
     pub fn all_cards() -> CardGroup {
         let mut all_cards: Vec<Card> = Vec::new();
-        for suit in Suit::iterator() {
+        for suit in Suit::iter() {
             let iter = Rank::into_iter();
-            let all_numbers = iter.map(|x| Card::new(x, *suit));
+            let all_numbers = iter.map(|x| Card::new(x, suit));
             all_cards.extend(all_numbers);
         }
         CardGroup::new(all_cards)
