@@ -1,4 +1,5 @@
 use super::CardGroup;
+use card::Card;
 use std::fmt;
 
 pub struct Deck {
@@ -14,6 +15,10 @@ impl Deck {
 
     pub fn shuffle(&mut self) {
         self.card_group.shuffle()
+    }
+
+    pub fn draw(&mut self) -> Option<Card> {
+        self.card_group.draw()
     }
 }
 

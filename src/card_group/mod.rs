@@ -5,14 +5,15 @@ use card::Rank;
 use card::Suit;
 use itertools::free::join;
 use rand::{thread_rng, Rng};
+use std::collections::VecDeque;
 use std::fmt;
 
 pub struct CardGroup {
-    cards: Vec<Card>,
+    cards: VecDeque<Card>,
 }
 
 impl CardGroup {
-    pub fn new(cards: Vec<Card>) -> CardGroup {
+    pub fn new(cards: VecDeque<Card>) -> CardGroup {
         CardGroup { cards }
     }
 
@@ -23,7 +24,7 @@ impl CardGroup {
     }
 
     pub fn all_cards() -> CardGroup {
-        let mut all_cards: Vec<Card> = Vec::new();
+        let mut all_cards: VecDeque<Card> = VecDeque::new();
         for suit in Suit::iter() {
             let iter = Rank::into_iter();
             let all_numbers = iter.map(|x| Card::new(x, suit));
@@ -33,7 +34,14 @@ impl CardGroup {
     }
 
     pub fn shuffle(&mut self) {
-        thread_rng().shuffle(&mut self.cards);
+        let mut rng = thread_rng();
+        let (front, back) = self.cards.as_mut_slices();
+        rng.shuffle(front);
+        rng.shuffle(back);
+    }
+
+    pub fn draw(&mut self) -> Option<Card> {
+        self.cards.pop_front()
     }
 }
 
