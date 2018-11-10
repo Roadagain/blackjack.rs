@@ -43,22 +43,29 @@ mod test {
     use std::collections::VecDeque;
 
     #[test]
-    fn draw_returns_top() {
+    fn draw_normally() {
         let top = Card::new(Rank::TEN, Suit::CLUB);
         let bottom = Card::new(Rank::TWO, Suit::DIAMOND);
         let cards_vec = vec![top, bottom];
         let cards = VecDeque::from(cards_vec);
         let mut card_group = CardGroup::new(cards);
+
         let drawed = card_group.draw();
-        let expected = Some(Card::new(Rank::TEN, Suit::CLUB));
-        assert_eq!(drawed, expected)
+        assert_eq!(drawed, Some(Card::new(Rank::TEN, Suit::CLUB)));
+
+        let len_after_draw = card_group.cards.len();
+        assert_eq!(len_after_draw, 1);
     }
 
     #[test]
-    fn draw_from_empty_returns_none() {
+    fn draw_from_empty() {
         let cards = VecDeque::new();
         let mut card_group = CardGroup::new(cards);
+
         let drawed = card_group.draw();
         assert_eq!(drawed, None);
+
+        let len_after_draw = card_group.cards.len();
+        assert_eq!(len_after_draw, 0);
     }
 }
