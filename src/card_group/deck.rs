@@ -10,7 +10,7 @@ pub struct Deck {
 }
 
 impl Deck {
-    pub fn new() -> Deck {
+    pub fn new() -> Self {
         let mut all_cards: VecDeque<Card> = VecDeque::new();
         for suit in Suit::iter() {
             let iter = Rank::into_iter();
@@ -18,7 +18,7 @@ impl Deck {
             all_cards.extend(all_numbers);
         }
 
-        Deck {
+        Self {
             card_group: CardGroup::new(all_cards),
         }
     }

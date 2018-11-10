@@ -11,8 +11,8 @@ pub struct CardGroup {
 }
 
 impl CardGroup {
-    pub fn new(cards: VecDeque<Card>) -> CardGroup {
-        CardGroup { cards }
+    pub fn new(cards: VecDeque<Card>) -> Self {
+        Self { cards }
     }
 
     pub fn shuffle(&mut self) {

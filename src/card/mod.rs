@@ -10,8 +10,8 @@ pub struct Card {
 }
 
 impl Card {
-    pub fn new(rank: Rank, suit: Suit) -> Card {
-        Card { rank, suit }
+    pub fn new(rank: Rank, suit: Suit) -> Self {
+        Self { rank, suit }
     }
 }
 
