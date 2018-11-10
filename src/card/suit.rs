@@ -1,7 +1,7 @@
 use enum_iterator::IntoEnumIterator;
 use std::fmt;
 
-#[derive(Copy, Clone, IntoEnumIterator)]
+#[derive(Copy, Clone, Debug, PartialEq, IntoEnumIterator)]
 pub enum Suit {
     SPADE,
     HEART,
@@ -23,5 +23,18 @@ impl fmt::Display for Suit {
             Suit::DIAMOND => write!(f, "♦"),
             Suit::CLUB => write!(f, "♣"),
         }
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::Suit;
+
+    #[test]
+    fn all_suits() {
+        let iter = Suit::iter();
+        let suits: Vec<Suit> = iter.collect();
+        let expected = vec![Suit::SPADE, Suit::HEART, Suit::DIAMOND, Suit::CLUB];
+        assert_eq!(suits, expected);
     }
 }

@@ -43,3 +43,20 @@ impl fmt::Display for Deck {
         write!(f, "{}", self.card_group)
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::Deck;
+    use card::Card;
+    use card::Rank;
+    use card::Suit;
+
+    #[test]
+    fn top_is_spade_ace() {
+        let mut deck = Deck::new();
+        let drawed = deck.draw();
+        let spade_ace = Card::new(Rank::ACE, Suit::SPADE);
+        let expected = Some(spade_ace);
+        assert_eq!(drawed, expected);
+    }
+}

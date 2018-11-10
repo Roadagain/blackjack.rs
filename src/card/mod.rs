@@ -4,6 +4,7 @@ mod suit;
 pub use self::suit::Suit;
 use std::fmt;
 
+#[derive(Debug, PartialEq)]
 pub struct Card {
     rank: Rank,
     suit: Suit,
