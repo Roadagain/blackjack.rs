@@ -1,5 +1,8 @@
 use super::CardGroup;
 use card::Card;
+use card::Rank;
+use card::Suit;
+use std::collections::VecDeque;
 use std::fmt;
 
 pub struct Deck {
@@ -8,9 +11,16 @@ pub struct Deck {
 
 impl Deck {
     pub fn new() -> Deck {
-        let mut card_group = CardGroup::all_cards();
-        card_group.shuffle();
-        Deck { card_group }
+        let mut all_cards: VecDeque<Card> = VecDeque::new();
+        for suit in Suit::iter() {
+            let iter = Rank::into_iter();
+            let all_numbers = iter.map(|x| Card::new(x, suit));
+            all_cards.extend(all_numbers);
+        }
+
+        Deck {
+            card_group: CardGroup::new(all_cards),
+        }
     }
 
     pub fn shuffle(&mut self) {

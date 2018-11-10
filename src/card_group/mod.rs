@@ -1,8 +1,6 @@
 mod deck;
 pub use self::deck::Deck;
 use card::Card;
-use card::Rank;
-use card::Suit;
 use itertools::free::join;
 use rand::{thread_rng, Rng};
 use std::collections::VecDeque;
@@ -15,22 +13,6 @@ pub struct CardGroup {
 impl CardGroup {
     pub fn new(cards: VecDeque<Card>) -> CardGroup {
         CardGroup { cards }
-    }
-
-    pub fn all_number(suit: Suit) -> CardGroup {
-        let iter = Rank::into_iter();
-        let all_cards = iter.map(|x| Card::new(x, suit));
-        CardGroup::new(all_cards.collect())
-    }
-
-    pub fn all_cards() -> CardGroup {
-        let mut all_cards: VecDeque<Card> = VecDeque::new();
-        for suit in Suit::iter() {
-            let iter = Rank::into_iter();
-            let all_numbers = iter.map(|x| Card::new(x, suit));
-            all_cards.extend(all_numbers);
-        }
-        CardGroup::new(all_cards)
     }
 
     pub fn shuffle(&mut self) {
