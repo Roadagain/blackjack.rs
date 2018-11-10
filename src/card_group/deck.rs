@@ -52,7 +52,7 @@ mod test {
     use card::Suit;
 
     #[test]
-    fn top_is_spade_ace() {
+    fn default_top_is_spade_ace() {
         let mut deck = Deck::new();
         let drawed = deck.draw();
         let spade_ace = Card::new(Rank::ACE, Suit::SPADE);
