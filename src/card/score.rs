@@ -1,4 +1,5 @@
 use super::Rank;
+use std::ops::Add;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Score {
@@ -19,6 +20,18 @@ impl Score {
             _ => min,
         };
         Self { min, max }
+    }
+}
+
+impl Add<Rank> for Score {
+    type Output = Score;
+
+    fn add(self, rank: Rank) -> Self {
+        let inc = rank as u32;
+        Score {
+            min: self.min + inc,
+            max: self.max + inc,
+        }
     }
 }
 
@@ -47,5 +60,13 @@ mod test {
         let ace_score = Score::new(Rank::ACE);
         assert_eq!(ace_score.min, 1);
         assert_eq!(ace_score.max, 11);
+    }
+
+    #[test]
+    fn add_rank_to_score() {
+        let score = Score::new(Rank::SIX);
+        let result = score + Rank::SEVEN;
+        assert_eq!(result.min, 13);
+        assert_eq!(result.max, 13);
     }
 }
