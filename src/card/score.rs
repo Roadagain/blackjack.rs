@@ -71,8 +71,7 @@ mod test {
     fn ace_is_one_or_eleven() {
         let ace_score = Score::new(Rank::ACE);
         if let Score::Double { min, max } = ace_score {
-            assert_eq!(min, 1);
-            assert_eq!(max, 11);
+            assert_eq!((min, max), (1, 11));
         } else {
             assert!(false);
         }
