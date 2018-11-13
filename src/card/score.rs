@@ -46,33 +46,35 @@ mod test {
     #[test]
     fn jqk_is_ten() {
         let jack_score = Score::new(Rank::JACK);
-        match jack_score {
-            Score::Single { value } => assert_eq!(value, 10),
-            _ => assert!(false),
+        if let Score::Single { value } = jack_score {
+            assert_eq!(value, 10);
+        } else {
+            assert!(false);
         }
 
         let queen_score = Score::new(Rank::QUEEN);
-        match queen_score {
-            Score::Single { value } => assert_eq!(value, 10),
-            _ => assert!(false),
+        if let Score::Single { value } = queen_score {
+            assert_eq!(value, 10);
+        } else {
+            assert!(false);
         }
 
         let king_score = Score::new(Rank::KING);
-        match king_score {
-            Score::Single { value } => assert_eq!(value, 10),
-            _ => assert!(false),
+        if let Score::Single { value } = king_score {
+            assert_eq!(value, 10);
+        } else {
+            assert!(false);
         }
     }
 
     #[test]
     fn ace_is_one_or_eleven() {
         let ace_score = Score::new(Rank::ACE);
-        match ace_score {
-            Score::Double { min, max } => {
-                assert_eq!(min, 1);
-                assert_eq!(max, 11)
-            }
-            _ => assert!(false),
+        if let Score::Double { min, max } = ace_score {
+            assert_eq!(min, 1);
+            assert_eq!(max, 11);
+        } else {
+            assert!(false);
         }
     }
 
@@ -80,9 +82,10 @@ mod test {
     fn add_rank_to_score() {
         let score = Score::new(Rank::SIX);
         let result = score + Rank::SEVEN;
-        match result {
-            Score::Single { value } => assert_eq!(value, 13),
-            _ => assert!(false),
+        if let Score::Single { value } = result {
+            assert_eq!(value, 13);
+        } else {
+            assert!(false)
         }
     }
 }
