@@ -21,6 +21,22 @@ impl Score {
             Score::Single { value }
         }
     }
+
+    fn is_burst(&self) -> bool {
+        match *self {
+            Score::Single { value } => value > Score::BLACKJACK,
+            Score::Double { min, max } => min > Score::BLACKJACK || max > Score::BLACKJACK,
+        }
+    }
+
+    fn normalize(&self) -> Self {
+        match self {
+            Score::Double { min, .. } if self.is_burst() => Score::Single { value: *min },
+            _ => *self,
+        }
+    }
+
+    const BLACKJACK: u32 = 21;
 }
 
 impl Add<Rank> for Score {
@@ -33,7 +49,7 @@ impl Add<Rank> for Score {
             Score::Double { min, max } => Score::Double {
                 min: min + inc,
                 max: max + inc,
-            },
+            }.normalize(),
         }
     }
 }
@@ -85,6 +101,48 @@ mod test {
             assert_eq!(value, 13);
         } else {
             assert!(false)
+        }
+    }
+
+    #[test]
+    fn normalize() {
+        let safe_single = Score::new(Rank::TEN);
+        assert_eq!(safe_single.normalize(), safe_single);
+
+        let bursted_single = Score::Single { value: 30 };
+        assert_eq!(bursted_single.normalize(), bursted_single);
+
+        let safe_double = Score::Double {
+            min: 11,
+            max: Score::BLACKJACK,
+        };
+        assert_eq!(safe_double.normalize(), safe_double);
+
+        let bursted_double = Score::Double {
+            min: 2,
+            max: Score::BLACKJACK + 1,
+        };
+        let expected_normalized = Score::Single { value: 2 };
+        assert_eq!(bursted_double.normalize(), expected_normalized);
+    }
+
+    #[test]
+    fn burst_score() {
+        let single_burst = Score::new(Rank::TEN) + Rank::TEN + Rank::TEN;
+        assert!(single_burst.is_burst());
+        if let Score::Single { value } = single_burst {
+            assert_eq!(value, 30);
+        } else {
+            assert!(false);
+        }
+
+        let double_burst = Score::new(Rank::ACE) + Rank::TEN + Rank::TEN;
+        assert!(!double_burst.is_burst());
+        if let Score::Single { value } = double_burst {
+            // 元々DoubleだったものがバーストしてSingleに切り捨てられる
+            assert_eq!(value, 21);
+        } else {
+            assert!(false);
         }
     }
 }
