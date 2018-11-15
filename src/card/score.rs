@@ -1,4 +1,5 @@
 use super::Rank;
+use std::fmt;
 use std::ops::Add;
 
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -21,6 +22,21 @@ impl Score {
         }
     }
 
+    fn ace_as_eleven(&self) -> Self {
+        if self.has_ace {
+            Self {
+                value: self.value + 10,
+                has_ace: false,
+            }
+        } else {
+            *self
+        }
+    }
+
+    fn is_blackjack(&self) -> bool {
+        self.value == Score::BLACKJACK
+    }
+
     fn is_burst(&self) -> bool {
         self.value > Score::BLACKJACK
     }
@@ -36,6 +52,25 @@ impl Add<Rank> for Score {
         Self {
             value: self.value + inc,
             has_ace: self.has_ace || rank == Rank::ACE,
+        }
+    }
+}
+
+impl fmt::Display for Score {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.value);
+
+        let special_ace_score = self.ace_as_eleven();
+        if self.has_ace && !special_ace_score.is_burst() {
+            write!(f, " or {}", special_ace_score.value);
+        }
+
+        if self.is_blackjack() || special_ace_score.is_blackjack() {
+            write!(f, " Blackjack!")
+        } else if self.is_burst() {
+            write!(f, " Bursted!")
+        } else {
+            write!(f, "")
         }
     }
 }
@@ -71,5 +106,32 @@ mod test {
 
         let blackjack_with_ace = Score::new(Rank::ACE) + Rank::TEN + Rank::TEN;
         assert!(!blackjack_with_ace.is_burst());
+    }
+
+    #[test]
+    fn format() {
+        let normal_score = Score::new(Rank::SEVEN);
+        assert_eq!(format!("{}", normal_score), "7");
+
+        let blackjack = Score::new(Rank::TEN) + Rank::FIVE + Rank::SIX;
+        assert_eq!(format!("{}", blackjack), "21 Blackjack!");
+
+        let bursted = Score::new(Rank::TEN) + Rank::FOUR + Rank::EIGHT;
+        assert_eq!(format!("{}", bursted), "22 Bursted!");
+    }
+
+    #[test]
+    fn format_with_ace() {
+        let single_ace = Score::new(Rank::ACE);
+        assert_eq!(format!("{}", single_ace), "1 or 11");
+
+        let blackjack = Score::new(Rank::ACE) + Rank::TEN;
+        assert_eq!(format!("{}", blackjack), "11 or 21 Blackjack!");
+
+        let ace_is_just_one = Score::new(Rank::ACE) + Rank::NINE + Rank::EIGHT;
+        assert_eq!(format!("{}", ace_is_just_one), "18");
+
+        let bursted = Score::new(Rank::ACE) + Rank::EIGHT + Rank::EIGHT + Rank::SEVEN;
+        assert_eq!(format!("{}", bursted), "24 Bursted!");
     }
 }
