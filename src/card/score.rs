@@ -40,7 +40,7 @@ impl Score {
         self.value == Score::BLACKJACK
     }
 
-    fn is_burst(&self) -> bool {
+    fn is_busted(&self) -> bool {
         self.value > Score::BLACKJACK
     }
 
@@ -64,14 +64,14 @@ impl fmt::Display for Score {
         write!(f, "{}", self.value);
 
         let special_ace_score = self.ace_as_eleven();
-        if self.has_ace && !special_ace_score.is_burst() {
+        if self.has_ace && !special_ace_score.is_busted() {
             write!(f, " or {}", special_ace_score.value);
         }
 
         if self.is_blackjack() || special_ace_score.is_blackjack() {
             write!(f, " Blackjack!")
-        } else if self.is_burst() {
-            write!(f, " Bursted!")
+        } else if self.is_busted() {
+            write!(f, " busted!")
         } else {
             write!(f, "")
         }
@@ -103,12 +103,12 @@ mod test {
     }
 
     #[test]
-    fn burst_score() {
-        let single_burst = Score::new(Rank::TEN) + Rank::TEN + Rank::TEN;
-        assert!(single_burst.is_burst());
+    fn bust_score() {
+        let single_bust = Score::new(Rank::TEN) + Rank::TEN + Rank::TEN;
+        assert!(single_bust.is_busted());
 
         let blackjack_with_ace = Score::new(Rank::ACE) + Rank::TEN + Rank::TEN;
-        assert!(!blackjack_with_ace.is_burst());
+        assert!(!blackjack_with_ace.is_busted());
     }
 
     #[test]
@@ -119,8 +119,8 @@ mod test {
         let blackjack = Score::new(Rank::TEN) + Rank::FIVE + Rank::SIX;
         assert_eq!(format!("{}", blackjack), "21 Blackjack!");
 
-        let bursted = Score::new(Rank::TEN) + Rank::FOUR + Rank::EIGHT;
-        assert_eq!(format!("{}", bursted), "22 Bursted!");
+        let busted = Score::new(Rank::TEN) + Rank::FOUR + Rank::EIGHT;
+        assert_eq!(format!("{}", busted), "22 busted!");
     }
 
     #[test]
@@ -134,7 +134,7 @@ mod test {
         let ace_is_just_one = Score::new(Rank::ACE) + Rank::NINE + Rank::EIGHT;
         assert_eq!(format!("{}", ace_is_just_one), "18");
 
-        let bursted = Score::new(Rank::ACE) + Rank::EIGHT + Rank::EIGHT + Rank::SEVEN;
-        assert_eq!(format!("{}", bursted), "24 Bursted!");
+        let busted = Score::new(Rank::ACE) + Rank::EIGHT + Rank::EIGHT + Rank::SEVEN;
+        assert_eq!(format!("{}", busted), "24 busted!");
     }
 }
