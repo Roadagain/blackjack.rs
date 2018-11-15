@@ -108,6 +108,7 @@ mod test {
         assert!(single_bust.is_busted());
 
         let blackjack_with_ace = Score::new(Rank::ACE) + Rank::TEN + Rank::TEN;
+        // special score (A is 11) busts for 31, but it must be not busted
         assert!(!blackjack_with_ace.is_busted());
     }
 
@@ -132,6 +133,7 @@ mod test {
         assert_eq!(format!("{}", blackjack), "11 or 21 Blackjack!");
 
         let ace_is_just_one = Score::new(Rank::ACE) + Rank::NINE + Rank::EIGHT;
+        // special score is busted so not be showed
         assert_eq!(format!("{}", ace_is_just_one), "18");
 
         let busted = Score::new(Rank::ACE) + Rank::EIGHT + Rank::EIGHT + Rank::SEVEN;
