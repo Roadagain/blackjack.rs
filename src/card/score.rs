@@ -2,7 +2,7 @@ use super::Rank;
 use std::fmt;
 use std::ops::Add;
 
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Debug, PartialEq)]
 pub struct Score {
     value: u32,
     has_ace: bool,
@@ -29,7 +29,10 @@ impl Score {
                 has_ace: false,
             }
         } else {
-            *self
+            Self {
+                value: self.value,
+                has_ace: self.has_ace,
+            }
         }
     }
 
