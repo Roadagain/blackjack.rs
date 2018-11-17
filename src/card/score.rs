@@ -1,4 +1,5 @@
 use super::Rank;
+use std::convert::From;
 use std::fmt;
 use std::ops::Add;
 
@@ -9,31 +10,17 @@ pub struct Score {
 }
 
 impl Score {
-    pub fn new(rank: Rank) -> Self {
-        let value = match rank {
-            Rank::JACK => 10,
-            Rank::QUEEN => 10,
-            Rank::KING => 10,
-            n => n as u32,
-        };
-        Self {
-            value,
-            has_ace: rank == Rank::ACE,
-        }
+    fn new(value: u32, has_ace: bool) -> Self {
+        Self { value, has_ace }
     }
 
     fn ace_as_eleven(&self) -> Self {
-        if self.has_ace {
-            Self {
-                value: self.value + 10,
-                has_ace: false,
-            }
+        let value = if self.has_ace {
+            self.value + 10
         } else {
-            Self {
-                value: self.value,
-                has_ace: self.has_ace,
-            }
-        }
+            self.value
+        };
+        Score::new(value, false)
     }
 
     fn is_blackjack(&self) -> bool {
@@ -47,15 +34,22 @@ impl Score {
     const BLACKJACK: u32 = 21;
 }
 
+impl From<Rank> for Score {
+    fn from(rank: Rank) -> Self {
+        let value = match rank {
+            Rank::JACK | Rank::QUEEN | Rank::KING => 10,
+            n => n as u32,
+        };
+        Self::new(value, rank == Rank::ACE)
+    }
+}
+
 impl Add<Rank> for Score {
     type Output = Score;
 
     fn add(self, rank: Rank) -> Self {
         let inc = rank as u32;
-        Self {
-            value: self.value + inc,
-            has_ace: self.has_ace || rank == Rank::ACE,
-        }
+        Self::new(self.value + inc, self.has_ace || rank == Rank::ACE)
     }
 }
 
@@ -85,58 +79,58 @@ mod test {
 
     #[test]
     fn jqk_is_ten() {
-        let jack_score = Score::new(Rank::JACK);
+        let jack_score = Score::from(Rank::JACK);
         assert_eq!(jack_score.value, 10);
 
-        let queen_score = Score::new(Rank::QUEEN);
+        let queen_score = Score::from(Rank::QUEEN);
         assert_eq!(queen_score.value, 10);
 
-        let king_score = Score::new(Rank::KING);
+        let king_score = Score::from(Rank::KING);
         assert_eq!(king_score.value, 10);
     }
 
     #[test]
     fn add_rank_to_score() {
-        let score = Score::new(Rank::SIX);
+        let score = Score::from(Rank::SIX);
         let result = score + Rank::SEVEN;
         assert_eq!(result.value, 13);
     }
 
     #[test]
     fn bust_score() {
-        let single_bust = Score::new(Rank::TEN) + Rank::TEN + Rank::TEN;
+        let single_bust = Score::new(30, false);
         assert!(single_bust.is_busted());
 
-        let blackjack_with_ace = Score::new(Rank::ACE) + Rank::TEN + Rank::TEN;
+        let blackjack_with_ace = Score::new(21, true);
         // special score (A is 11) busts for 31, but it must be not busted
         assert!(!blackjack_with_ace.is_busted());
     }
 
     #[test]
     fn format() {
-        let normal_score = Score::new(Rank::SEVEN);
+        let normal_score = Score::from(Rank::SEVEN);
         assert_eq!(format!("{}", normal_score), "7");
 
-        let blackjack = Score::new(Rank::TEN) + Rank::FIVE + Rank::SIX;
+        let blackjack = Score::new(21, false);
         assert_eq!(format!("{}", blackjack), "21 Blackjack!");
 
-        let busted = Score::new(Rank::TEN) + Rank::FOUR + Rank::EIGHT;
+        let busted = Score::new(22, false);
         assert_eq!(format!("{}", busted), "22 busted!");
     }
 
     #[test]
     fn format_with_ace() {
-        let single_ace = Score::new(Rank::ACE);
+        let single_ace = Score::new(1, true);
         assert_eq!(format!("{}", single_ace), "1 or 11");
 
-        let blackjack = Score::new(Rank::ACE) + Rank::TEN;
+        let blackjack = Score::new(11, true);
         assert_eq!(format!("{}", blackjack), "11 or 21 Blackjack!");
 
-        let ace_is_just_one = Score::new(Rank::ACE) + Rank::NINE + Rank::EIGHT;
+        let ace_is_just_one = Score::new(18, true);
         // special score is busted so not be showed
         assert_eq!(format!("{}", ace_is_just_one), "18");
 
-        let busted = Score::new(Rank::ACE) + Rank::EIGHT + Rank::EIGHT + Rank::SEVEN;
+        let busted = Score::new(24, true);
         assert_eq!(format!("{}", busted), "24 busted!");
     }
 }

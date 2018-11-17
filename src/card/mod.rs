@@ -18,7 +18,7 @@ impl Card {
     }
 
     pub fn score(&self) -> Score {
-        Score::new(self.rank)
+        Score::from(self.rank)
     }
 }
 
