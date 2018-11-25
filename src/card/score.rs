@@ -1,3 +1,5 @@
+#![cfg_attr(feature = "cargo-clippy", allow(suspicious_arithmetic_impl))]
+
 use super::Rank;
 use std::convert::From;
 use std::fmt;
@@ -44,12 +46,11 @@ impl From<Rank> for Score {
     }
 }
 
-impl Add<Rank> for Score {
+impl Add<Score> for Score {
     type Output = Score;
 
-    fn add(self, rank: Rank) -> Self {
-        let inc = rank as u32;
-        Self::new(self.value + inc, self.has_ace || rank == Rank::ACE)
+    fn add(self, rank: Score) -> Self {
+        Self::new(self.value + rank.value, self.has_ace || rank.has_ace)
     }
 }
 
@@ -90,9 +91,9 @@ mod test {
     }
 
     #[test]
-    fn add_rank_to_score() {
+    fn add_score() {
         let score = Score::from(Rank::SIX);
-        let result = score + Rank::SEVEN;
+        let result = score + Score::from(Rank::SEVEN);
         assert_eq!(result.value, 13);
     }
 
