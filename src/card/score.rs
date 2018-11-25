@@ -17,12 +17,11 @@ impl Score {
     }
 
     fn ace_as_eleven(&self) -> Self {
-        let value = if self.has_ace {
-            self.value + 10
+        if self.has_ace {
+            Self::new(self.value + 10, false)
         } else {
-            self.value
-        };
-        Score::new(value, false)
+            Self::new(self.value, false)
+        }
     }
 
     fn is_blackjack(&self) -> bool {
