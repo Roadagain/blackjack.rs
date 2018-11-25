@@ -12,7 +12,7 @@ pub struct Deck {
 impl Deck {
     pub fn new() -> Self {
         let mut all_cards: VecDeque<Card> = VecDeque::new();
-        for suit in Suit::iter() {
+        for suit in Suit::into_iter() {
             let iter = Rank::into_iter();
             let all_numbers = iter.map(|x| Card::new(x, suit));
             all_cards.extend(all_numbers);
