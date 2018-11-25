@@ -10,7 +10,7 @@ pub enum Suit {
 }
 
 impl Suit {
-    pub fn iter() -> SuitEnumIterator {
+    pub fn into_iter() -> SuitEnumIterator {
         Suit::into_enum_iter()
     }
 }
@@ -32,7 +32,7 @@ mod test {
 
     #[test]
     fn all_suits() {
-        let iter = Suit::iter();
+        let iter = Suit::into_iter();
         let suits: Vec<Suit> = iter.collect();
         let expected = vec![Suit::SPADE, Suit::HEART, Suit::DIAMOND, Suit::CLUB];
         assert_eq!(suits, expected);
