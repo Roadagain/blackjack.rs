@@ -2,6 +2,8 @@ mod rank;
 pub use self::rank::Rank;
 mod suit;
 pub use self::suit::Suit;
+mod score;
+pub use self::score::Score;
 use std::fmt;
 
 #[derive(Debug, PartialEq)]
@@ -13,6 +15,10 @@ pub struct Card {
 impl Card {
     pub fn new(rank: Rank, suit: Suit) -> Self {
         Self { rank, suit }
+    }
+
+    pub fn score(&self) -> Score {
+        Score::from(self.rank)
     }
 }
 
