@@ -10,7 +10,7 @@ pub enum Suit {
 }
 
 impl Suit {
-    pub fn iter() -> SuitEnumIterator {
+    pub fn into_iter() -> SuitEnumIterator {
         Suit::into_enum_iter()
     }
 }
